@@ -10,51 +10,81 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { ResourceTable } from '@/types/ResourceTable';
+import { ResourceDetails } from '@/types/ResourceDetails';
 import { getList } from './k8s';
-import { dateTimeFormat } from './utils';
+import ColumnField from './ColumnField';
+
+const resourceDetails: ResourceDetails = {
+  spec: {
+    name: 'Services',
+    resourceGroup: 'serving.knative.dev/v1',
+    resourcesName: 'services',
+  },
+};
+
+const resourceTable: ResourceTable = {
+  spec: {
+    columns: [
+      {
+        name: 'Type',
+        path: 'metadata.labels.[\'function.knative.dev\']',
+        type: 'enum',
+        enum: {
+          true: 'Function',
+          false: 'Service',
+          default: 'ServiceX',
+        }
+      },
+      {
+        name: 'Name',
+        path: 'metadata.name',
+      },
+      {
+        name: 'URL',
+        path: 'status.url',
+      },
+      {
+        name: 'Created',
+        path: 'metadata.creationTimestamp',
+      },
+    ],
+  },
+};
+
+const columns = resourceTable.spec.columns;
 
 export default async function Home() {
-  const services: any[] = (await getList('serving.knative.dev/v1', 'services')).items;
+  const services: any[] = (await getList(resourceDetails.spec.resourceGroup, resourceDetails.spec.resourcesName)).items;
 
   return (
     <main>
       <Container>
         <Box>
            <Card>
-            <Typography variant="h2">Services</Typography>
+            <Typography variant='h2'>{resourceDetails.spec.name}</Typography>
           </Card>
         </Box>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Type</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>URL</TableCell>
-                <TableCell>Created</TableCell>
+                {columns.map((column) => (
+                  <TableCell key={column.name}>{column.name}</TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {services.map((service: any, index) => (
                 <TableRow key={index}>
-                  <TableCell>
-                    {service.metadata?.labels?.['function.knative.dev'] === 'true' ? 'Function' : 'Service'}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {service.metadata?.name}
-                  </TableCell>
-                  <TableCell>
-                    {service.status?.url && <a href={service.status?.url} target="_blank" rel="noreferrer">{service.status?.url}</a>}
-                  </TableCell>
-                  <TableCell>
-                    {service.metadata?.creationTimestamp && dateTimeFormat.format(new Date(service.metadata.creationTimestamp))}
-                  </TableCell>
+                  {columns.map((column) => (
+                    <TableCell key={column.name}><ColumnField object={service} column={column} /></TableCell>
+                  ))}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-
       </Container>
     </main>
   )
