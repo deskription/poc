@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Drawer from '@mui/material/Drawer';
+import NextLink from 'next/link'
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -29,7 +30,7 @@ export default function App() {
   return (
     <Drawer variant="permanent">
       <List dense sx={{ width: 260 }}>
-        <ListSubheader>
+        <ListSubheader disableGutters>
           <ListItemButton>
             <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>
             <ListItemText
@@ -43,14 +44,14 @@ export default function App() {
 
         <Divider />
 
-        <ListItemButton sx={{ pl: 11 }}>
-          <ListItemText primaryTypographyProps={{ fontWeight: 'bold' }}>Dashboard</ListItemText>
+        <ListItemButton>
+          <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>Dashboard</ListItemText>
         </ListItemButton>
-        <ListItemButton sx={{ pl: 11 }}>
-          <ListItemText primaryTypographyProps={{ fontWeight: 'bold' }}>APIs</ListItemText>
+        <ListItemButton>
+          <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>APIs</ListItemText>
         </ListItemButton>
-        <ListItemButton sx={{ pl: 11 }}>
-          <ListItemText primaryTypographyProps={{ fontWeight: 'bold' }}>CRDs</ListItemText>
+        <ListItemButton>
+          <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>CRDs</ListItemText>
         </ListItemButton>
 
         <Divider />
@@ -60,7 +61,7 @@ export default function App() {
           const onClick = () => toggleGroup(group.name);
           return (
             <React.Fragment key={groupIndex}>
-              <ListSubheader>
+              <ListSubheader disableGutters>
                 <ListItemButton onClick={onClick}>
                   <ListItemIcon>{group.icon}</ListItemIcon>
                   <ListItemText primaryTypographyProps={{ fontWeight: 'bold' }}>{group.name}</ListItemText>
@@ -75,11 +76,11 @@ export default function App() {
                         <ListItemButton
                           key={itemIndex}
                           selected={item.name === selected}
+                          href="/"
+                          LinkComponent={NextLink}
                           onClick={() => setSelected(item.name)}
-                          sx={{ pl: 4 }}
                         >
-                          <ListItemIcon />
-                          <ListItemText>{item.name}</ListItemText>
+                          <ListItemText inset>{item.name}</ListItemText>
                         </ListItemButton>
                     ))}
                     </List>

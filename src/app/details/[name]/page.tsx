@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
+import NextLink from 'next/link'
+import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { getDetails } from '../../k8s';
@@ -8,29 +8,50 @@ import App from '../../App';
 
 import { resource, resourceDetails } from '@/knative';
 import Details from '@/app/Details';
+import { Breadcrumbs, Divider, Link, Tabs } from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-export default async function Page({ params }: { params: { name: string } }) {
+export default async function Page({ params, searchParams }: { params: { name: string }, searchParams: { tab: string } }) {
   const object: any = (await getDetails(resource, params.name));
 
   delete object.metadata.managedFields;
 
+  const selectedTab = searchParams.tab ?? 'details';
+
+  const breadcrumbs = [
+    <Link key="2" component={NextLink} href="/" underline="hover" color="inherit">
+      Services
+    </Link>,
+  ];
+
   return (
     <main>
       <App />
-      <br/>
-      <br/>
-      <br/>
-      <br/>
       <Container>
-        <Box>
-           <Card>
-            <Typography variant='h2'>app: {params.name}</Typography>
-          </Card>
-        </Box>
-        <Details object={object} resourceDetails={resourceDetails} />
-        <pre>
-          {JSON.stringify(object, null, 2)}
-        </pre>
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+        >
+          {breadcrumbs}
+          <Typography key="3" color="text.primary">
+            {params.name}
+          </Typography>
+        </Breadcrumbs>
+
+        <Tabs value={selectedTab}>
+          <Tab label="Details" value="details" LinkComponent={NextLink} href="/details/kn-func-node-http?tab=details" sx={{ textTransform: 'none' }} />
+          <Tab label="YAML" value="yaml" LinkComponent={NextLink} href="/details/kn-func-node-http?tab=yaml" sx={{ textTransform: 'none' }} />
+        </Tabs>
+        <Divider />
+
+        <div hidden={selectedTab !== 'details'}>
+          <Details object={object} resourceDetails={resourceDetails} />
+        </div>
+        <div hidden={selectedTab !== 'yaml'}>
+          <pre style={{ whiteSpace: 'pre-wrap' }}>
+            {JSON.stringify(object, null, 2)}
+          </pre>
+        </div>
       </Container>
     </main>
   )

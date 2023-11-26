@@ -13,6 +13,8 @@ import Paper from '@mui/material/Paper';
 import { getList } from './k8s';
 import ColumnField from './ColumnField';
 import App from './App';
+import { Breadcrumbs, Divider, Link, Tabs } from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import { resource, resourceTable } from '@/knative';
 
@@ -24,13 +26,18 @@ export default async function Home() {
     <main>
       <App />
       <Container>
-        <Box>
-           <Card>
-            <Typography variant='h2'>{resource.spec.name}</Typography>
-          </Card>
-        </Box>
-        <TableContainer component={Paper}>
-          <Table>
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+        >
+          {/* {breadcrumbs} */}
+          <Typography key="3" color="text.primary">
+            {resource.spec.name}
+          </Typography>
+        </Breadcrumbs>
+
+        <TableContainer>
+          <Table size='small'>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
