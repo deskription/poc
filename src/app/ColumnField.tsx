@@ -1,9 +1,14 @@
 import { get } from 'lodash';
 import { dateTimeFormat } from './utils';
 import { ResourceTableColumn } from '@/types/ResourceTable';
+import Link from 'next/link';
 
 export default function ColumnField({ object, column }: { object: any, column: ResourceTableColumn }) {
   let value = get(object, column.path);
+
+  if (column.path === 'metadata.name') {
+    return <Link href={`/details/${value}`}>{value}</Link>
+  }
 
   if (column.type === 'enum' && column.enum) {
     value = column.enum[value] || column.enum.default;

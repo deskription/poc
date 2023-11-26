@@ -10,59 +10,23 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { ResourceTable } from '@/types/ResourceTable';
-import { ResourceDetails } from '@/types/ResourceDetails';
 import { getList } from './k8s';
 import ColumnField from './ColumnField';
+import App from './App';
 
-const resourceDetails: ResourceDetails = {
-  spec: {
-    name: 'Services',
-    resourceGroup: 'serving.knative.dev/v1',
-    resourcesName: 'services',
-  },
-};
-
-const resourceTable: ResourceTable = {
-  spec: {
-    columns: [
-      {
-        name: 'Type',
-        path: 'metadata.labels.[\'function.knative.dev\']',
-        type: 'enum',
-        enum: {
-          true: 'Function',
-          false: 'Service',
-          default: 'ServiceX',
-        }
-      },
-      {
-        name: 'Name',
-        path: 'metadata.name',
-      },
-      {
-        name: 'URL',
-        path: 'status.url',
-      },
-      {
-        name: 'Created',
-        path: 'metadata.creationTimestamp',
-      },
-    ],
-  },
-};
-
-const columns = resourceTable.spec.columns;
+import { resource, resourceTable } from '@/knative';
 
 export default async function Home() {
-  const services: any[] = (await getList(resourceDetails.spec.resourceGroup, resourceDetails.spec.resourcesName)).items;
+  const items: any[] = (await getList(resource)).items;
+  const columns = resourceTable.spec.columns;
 
   return (
     <main>
+      <App />
       <Container>
         <Box>
            <Card>
-            <Typography variant='h2'>{resourceDetails.spec.name}</Typography>
+            <Typography variant='h2'>{resource.spec.name}</Typography>
           </Card>
         </Box>
         <TableContainer component={Paper}>
@@ -75,10 +39,10 @@ export default async function Home() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {services.map((service: any, index) => (
+              {items.map((item: any, index) => (
                 <TableRow key={index}>
                   {columns.map((column) => (
-                    <TableCell key={column.name}><ColumnField object={service} column={column} /></TableCell>
+                    <TableCell key={column.name}><ColumnField object={item} column={column} /></TableCell>
                   ))}
                 </TableRow>
               ))}

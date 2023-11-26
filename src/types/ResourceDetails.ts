@@ -1,10 +1,14 @@
-export interface ResourceDetailsSpec {
+export interface ResourceDetailField {
   name: string;
-  // tmp
-  resourceGroup: string;
-  resourcesName: string;
+  path: string;
+  type?: 'enum';
+  enum?: Record<string, string>;
 }
-  
+
+export interface ResourceDetailsSpec {
+  fields: ResourceDetailField[];
+}
+
 export interface ResourceDetails {
   spec: ResourceDetailsSpec;
 }
