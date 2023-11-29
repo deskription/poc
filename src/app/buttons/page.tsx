@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import App from './App';
+import App from '../App';
 import { Breadcrumbs, Button } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-export default async function Home() {
+export default async function Buttons() {
   return (
     <main>
       <App />
@@ -16,11 +16,9 @@ export default async function Home() {
         >
           {/* {breadcrumbs} */}
           <Typography key="3" color="text.primary">
-            Dashboard
+            Buttons
           </Typography>
         </Breadcrumbs>
-
-        button:
 
         <Button>Primary</Button>
         <Button disabled>Disabled</Button>
@@ -53,7 +51,6 @@ export default async function Home() {
         <Button variant="outlined" color="error">
           Error
         </Button>
-
       </Container>
     </main>
   )
