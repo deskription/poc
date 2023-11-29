@@ -15,6 +15,11 @@ export const resourceTable: ResourceTable = {
   spec: {
     columns: [
       {
+        name: 'Status',
+        // TODO
+        type: 'status',
+      },
+      {
         name: 'Type',
         path: 'metadata.labels.[\'function.knative.dev\']',
         type: 'enum',

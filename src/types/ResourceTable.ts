@@ -1,7 +1,7 @@
 export interface ResourceTableColumn {
   name: string;
   path: string;
-  type?: 'enum';
+  type?: 'enum' | 'status';
   enum?: Record<string, string>;
 }
 

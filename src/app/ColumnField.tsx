@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import { dateTimeFormat } from './utils';
 import { ResourceTableColumn } from '@/types/ResourceTable';
 import Link from 'next/link';
+import { Chip, Tooltip } from '@mui/material';
 
 export default function ColumnField({ object, column }: { object: any, column: ResourceTableColumn }) {
   let value = get(object, column.path);
@@ -12,6 +13,14 @@ export default function ColumnField({ object, column }: { object: any, column: R
 
   if (column.type === 'enum' && column.enum) {
     value = column.enum[value] || column.enum.default;
+  }
+
+  if (column.type === 'status') {
+    return (
+      <Tooltip title="asd" arrow placement="right">
+        <Chip label="Running" color="success" size="small" variant="outlined" />
+      </Tooltip>
+    );
   }
 
   if (typeof value === 'string') {
