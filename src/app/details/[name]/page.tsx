@@ -4,7 +4,6 @@ import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { getDetails } from '../../k8s';
-import App from '../../App';
 
 import { resource, resourceDetails } from '@/knative';
 import Details from '@/app/Details';
@@ -25,34 +24,31 @@ export default async function Page({ params, searchParams }: { params: { name: s
   ];
 
   return (
-    <main>
-      <App />
-      <Container>
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-        >
-          {breadcrumbs}
-          <Typography key="3" color="text.primary">
-            {params.name}
-          </Typography>
-        </Breadcrumbs>
+    <>
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+      >
+        {breadcrumbs}
+        <Typography key="3" color="text.primary">
+          {params.name}
+        </Typography>
+      </Breadcrumbs>
 
-        <Tabs value={selectedTab}>
-          <Tab label="Details" value="details" LinkComponent={NextLink} href="/details/kn-func-node-http?tab=details" sx={{ textTransform: 'none' }} />
-          <Tab label="YAML" value="yaml" LinkComponent={NextLink} href="/details/kn-func-node-http?tab=yaml" sx={{ textTransform: 'none' }} />
-        </Tabs>
-        <Divider />
+      <Tabs value={selectedTab}>
+        <Tab label="Details" value="details" LinkComponent={NextLink} href="/details/kn-func-node-http?tab=details" sx={{ textTransform: 'none' }} />
+        <Tab label="YAML" value="yaml" LinkComponent={NextLink} href="/details/kn-func-node-http?tab=yaml" sx={{ textTransform: 'none' }} />
+      </Tabs>
+      <Divider />
 
-        <div hidden={selectedTab !== 'details'}>
-          <Details object={object} resourceDetails={resourceDetails} />
-        </div>
-        <div hidden={selectedTab !== 'yaml'}>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>
-            {JSON.stringify(object, null, 2)}
-          </pre>
-        </div>
-      </Container>
-    </main>
+      <div hidden={selectedTab !== 'details'}>
+        <Details object={object} resourceDetails={resourceDetails} />
+      </div>
+      <div hidden={selectedTab !== 'yaml'}>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>
+          {JSON.stringify(object, null, 2)}
+        </pre>
+      </div>
+    </>
   )
 }

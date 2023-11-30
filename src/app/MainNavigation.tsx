@@ -42,7 +42,7 @@ export default function MainNavigation() {
 
     <Divider />
 
-    <ListItemButton href="/dashboard" LinkComponent={NextLink}>
+    {/* <ListItemButton href="/dashboard" LinkComponent={NextLink}>
         <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>Dashboard</ListItemText>
     </ListItemButton>
     <ListItemButton href="/apis" LinkComponent={NextLink}>
@@ -52,7 +52,7 @@ export default function MainNavigation() {
         <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>CRDs</ListItemText>
     </ListItemButton>
 
-    <Divider />
+    <Divider /> */}
 
     {navigationItems.map((group, groupIndex) => {
         const open = !closedGroups[group.name];

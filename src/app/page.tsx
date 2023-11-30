@@ -1,60 +1,22 @@
-import * as React from 'react';
+import React from 'react';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Breadcrumbs } from '@mui/material';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import App from './App';
-import { Breadcrumbs, Button } from '@mui/material';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 export default async function Home() {
   return (
-    <main>
-      <App />
-      <Container>
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-        >
-          {/* {breadcrumbs} */}
-          <Typography key="3" color="text.primary">
-            Dashboard
-          </Typography>
-        </Breadcrumbs>
+    <Container>
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+      >
+        {/* {breadcrumbs} */}
+        <Typography key="3" color="text.primary">
+          Dashboard
+        </Typography>
+      </Breadcrumbs>
 
-        button:
-
-        <Button>Primary</Button>
-        <Button disabled>Disabled</Button>
-        <Button href="#text-buttons">Link</Button>        
-
-        <Button variant="text">Text</Button>
-        <Button variant="contained">Contained</Button>
-        <Button variant="outlined">Outlined</Button> 
-
-        <Button variant="contained">Contained</Button>
-        <Button variant="contained" disabled>
-          Disabled
-        </Button>
-        <Button variant="contained" href="#contained-buttons">
-          Link
-        </Button>
-
-        <Button variant="outlined">Primary</Button>
-        <Button variant="outlined" disabled>
-          Disabled
-        </Button>
-        <Button variant="outlined" href="#outlined-buttons">
-          Link
-        </Button>
-
-        <Button color="secondary">Secondary</Button>
-        <Button variant="contained" color="success">
-          Success
-        </Button>
-        <Button variant="outlined" color="error">
-          Error
-        </Button>
-
-      </Container>
-    </main>
+    </Container>
   )
 }

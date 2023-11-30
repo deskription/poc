@@ -9,7 +9,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { getList } from '../k8s';
 import ColumnField from '../ColumnField';
-import App from '../App';
 import { Breadcrumbs } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
@@ -27,40 +26,37 @@ export default async function Home({ searchParams }: { searchParams: Record<stri
   const columns = resourceTable.spec.columns;
 
   return (
-    <main>
-      <App />
-      <Container>
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          aria-label="breadcrumb"
-        >
-          {/* {breadcrumbs} */}
-          <Typography key="3" color="text.primary">
-            {resource.spec.name}
-          </Typography>
-        </Breadcrumbs>
+    <>
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+      >
+        {/* {breadcrumbs} */}
+        <Typography key="3" color="text.primary">
+          {resource.spec.name}
+        </Typography>
+      </Breadcrumbs>
 
-        <TableContainer>
-          <Table size='small'>
-            <TableHead>
-              <TableRow>
+      <TableContainer>
+        <Table size='small'>
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell key={column.name}>{column.name}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((item: any, index) => (
+              <TableRow key={index}>
                 {columns.map((column) => (
-                  <TableCell key={column.name}>{column.name}</TableCell>
+                  <TableCell key={column.name}><ColumnField object={item} column={column} /></TableCell>
                 ))}
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {items.map((item: any, index) => (
-                <TableRow key={index}>
-                  {columns.map((column) => (
-                    <TableCell key={column.name}><ColumnField object={item} column={column} /></TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Container>
-    </main>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   )
 }
