@@ -33,7 +33,7 @@ export default async function Home({ searchParams }: { searchParams: Record<stri
       >
         {/* {breadcrumbs} */}
         <Typography key="3" color="text.primary">
-          {resource.spec.name}
+          {searchParams.apiGroup} {searchParams.plural}
         </Typography>
       </Breadcrumbs>
 
