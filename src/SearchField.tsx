@@ -35,7 +35,7 @@ export default function SearchField<
   Multiple extends boolean | undefined = false,
   DisableClearable extends boolean | undefined = false,
   FreeSolo extends boolean | undefined = false,
->(props: SearchFieldProps<Value, Multiple, DisableClearable, FreeSolo>) {
+>({ onSelect, onEscape, ...otherProps }: SearchFieldProps<Value, Multiple, DisableClearable, FreeSolo>) {
   return (
     <Autocomplete
       // Show always all the options
@@ -59,17 +59,17 @@ export default function SearchField<
       // Call onSelect when the user selects an option
       onChange={(event, value, reason, details) => {
         console.log('SearchField onChange', event, value, reason, details);
-        props.onChange?.(event, value, reason, details);
-        props.onSelect(value);
+        otherProps.onChange?.(event, value, reason, details);
+        onSelect(value);
       }}
 
       // Call onClose when the user press escape.
       // Ignore all other events.
       onClose={(event, reason) => {
         console.log('SearchField onClose', event, reason);
-        props.onClose?.(event,reason);
+        otherProps.onClose?.(event,reason);
         if (reason === 'escape') {
-          props.onEscape?.();
+          onEscape?.();
         }
       }}
 
@@ -78,16 +78,23 @@ export default function SearchField<
       )}
       PaperComponent={PaperComponent}
       PopperComponent={PopperComponent}
+
+      style={{ display: 'flex' }}
+      sx={{ display: 'flex' }}
+
       componentsProps={{
         popper: {
           style: {
+          //   flexGrow: 1,
+          //   overflowY: 'auto', 
             position: 'unset',
           },
         },
       }}
-      ListboxProps={{ sx: { height: '40vh' } }}
 
-      {...props}
+      ListboxProps={{ sx: { maxHeight: 'unset' } }}
+
+      {...otherProps}
     />
   )
 }
