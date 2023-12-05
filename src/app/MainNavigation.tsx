@@ -60,6 +60,7 @@ export default function MainNavigation() {
       <ListLink href="/" label="Dashboard" selected={currentPathname === '/'} bold />
       <ListLink href="/apis" label="APIs" selected={currentPathname === '/apis'} bold />
       <ListLink href="/crds" label="CRDs" selected={currentPathname === '/crds'} bold />
+      <ListLink href="/deskriptions" label="Deskriptions" selected={currentPathname === '/deskriptions'} bold />
 
       <Divider />
 
