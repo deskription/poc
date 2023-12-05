@@ -1,13 +1,11 @@
 import * as React from 'react';
 import NextLink from 'next/link'
+import { Breadcrumbs, Divider, Link, Tabs } from '@mui/material';
 import Tab from '@mui/material/Tab';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { getDetails } from '../../k8s';
-
+import { getDetails } from '@/k8s/poc';
 import { resource, resourceDetails } from '@/knative';
 import Details from '@/app/Details';
-import { Breadcrumbs, Divider, Link, Tabs } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 export default async function Page({ params, searchParams }: { params: { name: string }, searchParams: { tab: string } }) {
