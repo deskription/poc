@@ -1,4 +1,4 @@
-'use server';
+'use client';
 
 import * as React from 'react';
 import NextLink from 'next/link'
@@ -9,8 +9,8 @@ import { navigationItems } from '@/nav-items';
 import { Collapse, Divider, ListItemIcon, ListSubheader } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { getAllResources } from '@/local-files';
 import MainNavigationSearchButton from '@/MainNavigationSearchButton';
+import { usePathname, useSearchParams } from 'next/navigation'
 
 interface Group {
   name: string;
@@ -21,55 +21,45 @@ const groups: Group[] = [
   { name: 'Workload', type: 'workload' },
 ];
 
-export default async function MainNavigation() {
-  const resources = await getAllResources();
-  console.log('MainNavigation resources', resources);
-  
-  // const [closedGroups, setClosedGroups] = React.useState<Record<string, boolean>>({});
+interface ListLinkProps {
+  href: string;
+  label: string;
+  selected: boolean;
+  bold?: boolean;
+}
 
-//   // Lazy load this so that the SSR and initial rendering are the same
-//   React.useEffect(() => {
-//     setClosedGroups(JSON.parse(localStorage.getItem('_poc_closedGroups') || '{}'));
-//   }, []);
-//   const toggleGroup = (name: string) => {
-//     setClosedGroups(oldValue => {
-//       const newValue = { ...oldValue, [name]: !oldValue[name] };
-//       localStorage.setItem('_poc_closedGroups', JSON.stringify(newValue));
-//       return newValue;
-//     });
-//   };
-//   const [selected, setSelected] = React.useState<string>();
+const ListLink = (props: ListLinkProps) => {
+  return (
+    <ListItemButton href={props.href} selected={props.selected} LinkComponent={NextLink}>
+      <ListItemText inset primaryTypographyProps={{ fontWeight: props.bold ? 'bold' : 'normal' }}>{props.label}</ListItemText>
+    </ListItemButton>
+  );
+}
 
-  const closedGroups: Record<string, string> = {};
-  const toggleGroup = (_: string) => null;
-  const selected = null;
-  const setSelected = (_: string) => null;
+export default function MainNavigation() {
+  const currentPathname = usePathname();
+  const currentSearchParams = useSearchParams();
+
+  const [closedGroups, setClosedGroups] = React.useState<Record<string, boolean>>({});
+
+  // Lazy load this so that the SSR and initial rendering are the same
+  React.useEffect(() => {
+    setClosedGroups(JSON.parse(localStorage.getItem('_poc_closedGroups') || '{}'));
+  }, []);
+  const toggleGroup = (name: string) => {
+    setClosedGroups(oldValue => {
+      const newValue = { ...oldValue, [name]: !oldValue[name] };
+      localStorage.setItem('_poc_closedGroups', JSON.stringify(newValue));
+      return newValue;
+    });
+  };
 
   return (
-    <List dense sx={{ width: 260 }}>
-      <ListSubheader disableGutters>
-        <ListItemButton>
-          <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>
-          <ListItemText
-            primaryTypographyProps={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            }}
-          >POC</ListItemText>
-        </ListItemButton>
-      </ListSubheader>
+    <List dense>
 
-      <Divider />
-
-      <ListItemButton href="/" LinkComponent={NextLink}>
-        <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>Dashboard</ListItemText>
-      </ListItemButton>
-      <ListItemButton href="/apis" LinkComponent={NextLink}>
-        <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>APIs</ListItemText>
-      </ListItemButton>
-      <ListItemButton href="/crds" LinkComponent={NextLink}>
-        <ListItemText inset primaryTypographyProps={{ fontWeight: 'bold' }}>CRDs</ListItemText>
-      </ListItemButton>
+      <ListLink href="/" label="Dashboard" selected={currentPathname === '/'} bold />
+      <ListLink href="/apis" label="APIs" selected={currentPathname === '/apis'} bold />
+      <ListLink href="/crds" label="CRDs" selected={currentPathname === '/crds'} bold />
 
       <Divider />
 
@@ -79,7 +69,7 @@ export default async function MainNavigation() {
 
       {navigationItems.map((group, groupIndex) => {
         const open = !closedGroups[group.name];
-        const onClick = undefined; // () => toggleGroup(group.name);
+        const onClick = () => toggleGroup(group.name);
         return (
           <React.Fragment key={groupIndex}>
             <ListSubheader disableGutters>
@@ -109,17 +99,14 @@ export default async function MainNavigation() {
                         params.set('scope', item.scope);
                       }
                       const href = `/list?${params.toString()}`
-                      const onClick = undefined; // () => setSelected(item.name)
+                      let selected = currentPathname === '/list';
+                      if (selected) {
+                        params.forEach((value, name) => {
+                          selected = selected && currentSearchParams.get(name) === value;
+                        });
+                      }
                       return (
-                        <ListItemButton
-                          key={itemIndex}
-                          selected={item.name === selected}
-                          href={href}
-                          LinkComponent={NextLink}
-                          onClick={onClick}
-                        >
-                          <ListItemText inset>{item.name}</ListItemText>
-                        </ListItemButton>
+                        <ListLink key={itemIndex} href={href} label={item.name} selected={selected} />
                       );
                     })}
                   </List>
