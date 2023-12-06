@@ -18,6 +18,7 @@ export const resourceTable: ResourceTable = {
         name: 'Status',
         // TODO
         type: 'status',
+        path: '',
       },
       {
         name: 'Type',

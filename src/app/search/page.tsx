@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Breadcrumbs } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Search from '@/Search';
+import Search from '@/search/Search';
 
 export default async function SearchPage() {
   return (

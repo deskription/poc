@@ -4,7 +4,7 @@ import { Breadcrumbs, Divider, Link, Tabs } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import { getDetails } from '@/k8s/poc';
-import { resource, resourceDetails } from '@/knative';
+import { resource, resourceDetails } from '@/resource-deskriptions/knative';
 import Details from '@/app/Details';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 

@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation'
-import SearchField from '@/SearchField';
-import { NavigationItem, navigationItems } from './nav-items';
+import SearchField from './SearchField';
+import { NavigationItem, navigationItems } from '../nav-items';
 
 export interface SearchProps {
   onClose?: () => void;

@@ -9,7 +9,7 @@ import { navigationItems } from '@/nav-items';
 import { Collapse, Divider, ListItemIcon, ListSubheader } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import MainNavigationSearchButton from '@/MainNavigationSearchButton';
+import MainNavigationSearchButton from '@/search/MainNavigationSearchButton';
 import { usePathname, useSearchParams } from 'next/navigation'
 
 interface Group {

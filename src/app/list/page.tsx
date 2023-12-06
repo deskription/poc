@@ -11,7 +11,7 @@ import ColumnField from '../ColumnField';
 import { Breadcrumbs } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-import { resource, resourceTable } from '@/knative';
+import { resource, resourceTable } from '@/resource-deskriptions/knative';
 
 export default async function Home({ searchParams }: { searchParams: Record<string, string> }) {
   const resourceRef = {
